@@ -5,7 +5,6 @@ export const travelData = {
     { id: 'flights', name: 'טיסות', icon: 'fas fa-plane' },
     { id: 'hotels', name: 'מלונות', icon: 'fas fa-hotel' },
     { id: 'transport', name: 'העברות', icon: 'fas fa-bus' },
-    { id: 'activities', name: 'פעילויות', icon: 'fas fa-hiking' },
     { id: 'weather', name: 'מזג אוויר', icon: 'fas fa-cloud-sun' },
     { id: 'budget', name: 'תקציב', icon: 'fas fa-calculator' },
     { id: 'backup', name: 'תוכנית גיבוי', icon: 'fas fa-shield-alt' }
@@ -16,37 +15,310 @@ export const travelData = {
       id: 1,
       dates: '3-8 אוקטובר',
       location: 'ריו דה ז\'ניירו',
-      description: 'הגעה, הסתגלות, אתרים עיקריים, חוף קופקבנה ואיפנמה'
+      description: 'הגעה, הסתגלות, אתרים עיקריים, חוף קופקבנה ואיפנמה',
+      icon: 'fas fa-mountain',
+      color: '#e74c3c',
+      activities: [
+        {
+          name: 'עלייה לפסל ישו המושיע (Cristo Redentor)',
+          description: 'רכבל או רכבת לפסל הידוע בעולם',
+          duration: '3-4 שעות',
+          price: '~R$70 (₪135)',
+          urls: [
+            { name: 'הזמנת כרטיסים', url: 'https://www.tremdocorcovado.rio' },
+            { name: 'מידע רשמי', url: 'https://www.cristoredentoroficial.com.br' }
+          ]
+        },
+        {
+          name: 'טיול להר הסוכר (Pão de Açúcar)',
+          description: 'רכבל עם נוף מדהים על ריו',
+          duration: '2-3 שעות',
+          price: '~R$120 (₪230)',
+          urls: [
+            { name: 'אתר רשמי', url: 'https://www.bondinho.com.br' },
+            { name: 'הזמנה מקוונת', url: 'https://www.sugarloaf.com.br' }
+          ]
+        },
+        {
+          name: 'חופי קופקבנה ואיפנמה',
+          description: 'שיזוף, שחייה, ואוכל רחוב',
+          duration: 'יום שלם',
+          price: 'חינם',
+          urls: [
+            { name: 'מדריך חופי ריו', url: 'https://www.visit.rio/que_fazer/praias' },
+            { name: 'פעילויות בחוף', url: 'https://www.riodejaneiro.com/beaches' }
+          ]
+        },
+        {
+          name: 'שכונת סנטה תרזה',
+          description: 'אמנות רחוב וקפה ברזילאי אותנטי',
+          duration: '4-5 שעות',
+          price: '~R$50 (₪95)',
+          urls: [
+            { name: 'מדריך השכונה', url: 'https://www.santateresa-rio.com' },
+            { name: 'סיורים מודרכים', url: 'https://www.viator.com/tours/Rio-de-Janeiro' }
+          ]
+        },
+        {
+          name: 'מדרגות סלרון (Escadaria Selarón)',
+          description: 'מדרגות צבעוניות מפורסמות',
+          duration: '1-2 שעות',
+          price: 'חינם',
+          urls: [
+            { name: 'מידע על האמן', url: 'https://www.escadariaselaron.com' }
+          ]
+        },
+        {
+          name: 'אצטדיון מרקנה',
+          description: 'סיור במקדש הכדורגל הברזילאי',
+          duration: '2-3 שעות',
+          price: '~R$60 (₪115)',
+          urls: [
+            { name: 'הזמנת סיורים', url: 'https://www.maracana.com.br' },
+            { name: 'כרטיסים למשחקים', url: 'https://www.ingressos.com' }
+          ]
+        }
+      ]
     },
     {
       id: 2,
       dates: '9-12 אוקטובר',
       location: 'סאו פאולו/איטו',
-      description: 'פסטיבל טומורולנד ברזיל'
+      description: 'פסטיבל טומורולנד ברזיל',
+      icon: 'fas fa-music',
+      color: '#9b59b6',
+      activities: [
+        {
+          name: 'פסטיבל טומורולנד ברזיל',
+          description: '3 ימים של מוזיקה אלקטרונית עולמית',
+          duration: '3 ימים',
+          price: '$200-400 (₪750-1500)',
+          urls: [
+            { name: 'אתר רשמי', url: 'https://www.tomorrowland.com/brasil' },
+            { name: 'כרטיסים', url: 'https://www.tomorrowland.com/brasil/tickets' }
+          ]
+        },
+        {
+          name: 'מתחם הגולף',
+          description: 'פעילויות ספורט ונופי טבע',
+          duration: 'יום שלם',
+          price: '~R$200 (₪380)',
+          urls: [
+            { name: 'מתחם הגולף', url: 'https://www.terrassaojose.com.br' }
+          ]
+        },
+        {
+          name: 'עיר איטו ההיסטורית',
+          description: 'ארכיטקטורה קולוניאלית וטיול רגלי',
+          duration: '4-6 שעות',
+          price: '~R$30 (₪60)',
+          urls: [
+            { name: 'מידע תיירותי איטו', url: 'https://www.itu.sp.gov.br/turismo' },
+            { name: 'מוזיאון הרפובליקה', url: 'https://www.museurepublica.museus.gov.br' }
+          ]
+        }
+      ]
     },
     {
       id: 3,
       dates: '13-16 אוקטובר',
       location: 'מורו דה סאו פאולו',
-      description: 'חופים טרופיים, אומגה, שיט שקיעה'
+      description: 'חופים טרופיים, אומגה, שיט שקיעה',
+      icon: 'fas fa-umbrella-beach',
+      color: '#3498db',
+      activities: [
+        {
+          name: '4 החופים המפורסמים',
+          description: 'כל חוף עם אופי שונה ופעילויות מגוונות',
+          duration: 'יום שלם',
+          price: 'חינם',
+          urls: [
+            { name: 'מדריך החופים', url: 'https://www.morrodesaopaulo.com.br/praias' }
+          ]
+        },
+        {
+          name: 'אומגת טירולזה מעל הים',
+          description: 'אדרנלין עם נוף מדהים',
+          duration: '2-3 שעות',
+          price: '~R$80 (₪150)',
+          urls: [
+            { name: 'הזמנת פעילות', url: 'https://www.morrodesaopaulo.com.br/tirolesa' }
+          ]
+        },
+        {
+          name: 'שייט שקיעה עם קפיריניה',
+          description: 'רומנטי ומרגיע עם משקאות',
+          duration: '3-4 שעות',
+          price: '~R$120 (₪230)',
+          urls: [
+            { name: 'הזמנת שייט', url: 'https://www.catamaranmorro.com.br' }
+          ]
+        },
+        {
+          name: 'שנורקל בשוניות האלמוגים',
+          description: 'חיי ים עשירים ומים צלולים',
+          duration: '3-4 שעות',
+          price: '~R$60 (₪115)',
+          urls: [
+            { name: 'סיורי שנורקל', url: 'https://www.morrodesaopaulo.com.br/mergulho' }
+          ]
+        }
+      ]
     },
     {
       id: 4,
       dates: '17-21 אוקטובר',
       location: 'איטאקרה',
-      description: 'יער אטלנטי, מפלים, גלישה, שוקולד'
+      description: 'יער אטלנטי, מפלים, גלישה, שוקולד',
+      icon: 'fas fa-tree',
+      color: '#27ae60',
+      activities: [
+        {
+          name: 'טרק 4 החופים',
+          description: 'הליכה בין חופים דרך יער גשם אטלנטי',
+          duration: '6-8 שעות',
+          price: '~R$80 (₪150)',
+          urls: [
+            { name: 'מדריכי טיולים', url: 'https://www.itacareecoturismo.com.br' }
+          ]
+        },
+        {
+          name: 'מפלי טיג\'ויפי',
+          description: 'בריכות טבעיות וקפיצות למים',
+          duration: '4-5 שעות',
+          price: '~R$50 (₪95)',
+          urls: [
+            { name: 'מידע על המפלים', url: 'https://www.itacare.com.br/cachoeiras' }
+          ]
+        },
+        {
+          name: 'שיעורי גלישה',
+          description: 'גלים מושלמים למתחילים',
+          duration: '2-3 שעות',
+          price: '~R$100 (₪190)',
+          urls: [
+            { name: 'בית ספר לגלישה', url: 'https://www.itacaresurfschool.com' }
+          ]
+        },
+        {
+          name: 'סיור מטעי שוקולד',
+          description: 'מהזרע ועד הטבלה - חוויה מתוקה',
+          duration: '3-4 שעות',
+          price: '~R$70 (₪135)',
+          urls: [
+            { name: 'מטעי שוקולד', url: 'https://www.fazendachocolate.com.br' }
+          ]
+        },
+        {
+          name: 'טיול קיאקים בנהרות',
+          description: 'דרך מנגרובים וחיות בר',
+          duration: '4-5 שעות',
+          price: '~R$90 (₪170)',
+          urls: [
+            { name: 'השכרת קיאקים', url: 'https://www.itacarekayak.com' }
+          ]
+        }
+      ]
     },
     {
       id: 5,
       dates: '22-28 אוקטובר',
       location: 'ג\'ריקואקוארה',
-      description: 'דיונות, לגונות, גלישת רוח, שקיעות מדהימות'
+      description: 'דיונות, לגונות, גלישת רוח, שקיעות מדהימות',
+      icon: 'fas fa-wind',
+      color: '#f39c12',
+      activities: [
+        {
+          name: 'דיונת השקיעה',
+          description: 'מקום הטוב ביותר לשקיעות בעולם',
+          duration: '2-3 שעות',
+          price: 'חינם',
+          urls: [
+            { name: 'מדריך לדיונות', url: 'https://www.jericoacoara.com/dunas' }
+          ]
+        },
+        {
+          name: 'לגונת פרדיסו',
+          description: 'מים טורקיז וערסלים במים',
+          duration: 'יום שלם',
+          price: '~R$100 (₪190)',
+          urls: [
+            { name: 'סיורים ללגונות', url: 'https://www.jericoacoaratours.com' }
+          ]
+        },
+        {
+          name: 'גלישת רוח וקייטסרפינג',
+          description: 'רוחות קבועות ומושלמות',
+          duration: '3-4 שעות',
+          price: '~R$150 (₪285)',
+          urls: [
+            { name: 'בית ספר לקייט', url: 'https://www.jericoacoarakite.com' },
+            { name: 'גלישת רוח', url: 'https://www.windsurfjeri.com' }
+          ]
+        },
+        {
+          name: 'טיול באגי לדיונת טטאז\'ובה',
+          description: 'הרפתקה במדבר החולי',
+          duration: '6-8 שעות',
+          price: '~R$200 (₪380)',
+          urls: [
+            { name: 'סיורי באגי', url: 'https://www.jericoacoarabuggy.com' }
+          ]
+        },
+        {
+          name: 'לגונת אזול',
+          description: 'מים כחולים קריסטליים',
+          duration: '4-5 שעות',
+          price: '~R$80 (₪150)',
+          urls: [
+            { name: 'מידע על הלגונה', url: 'https://www.jericoacoara.com/lagoa-azul' }
+          ]
+        },
+        {
+          name: 'רכיבה על סוסים בחוף',
+          description: 'בזמן שקיעה - חוויה רומנטית',
+          duration: '2-3 שעות',
+          price: '~R$120 (₪230)',
+          urls: [
+            { name: 'רכיבה על סוסים', url: 'https://www.jericoacoarahorses.com' }
+          ]
+        },
+        {
+          name: 'צפייה בכוכבים',
+          description: 'שמיים צלולים ללא זיהום אור',
+          duration: '2-3 שעות',
+          price: '~R$40 (₪75)',
+          urls: [
+            { name: 'סיורי כוכבים', url: 'https://www.jericoacoarastars.com' }
+          ]
+        }
+      ]
     },
     {
       id: 6,
       dates: '29-31 אוקטובר',
       location: 'חזרה דרך ריו',
-      description: 'יום גיבוי וטיסה לישראל'
+      description: 'יום גיבוי וטיסה לישראל',
+      icon: 'fas fa-plane-departure',
+      color: '#95a5a6',
+      activities: [
+        {
+          name: 'קניות לזכרונות',
+          description: 'שוק היפי באיפנמה ורחוב סאו קלמנטה',
+          duration: '3-4 שעות',
+          price: '~R$200 (₪380)',
+          urls: [
+            { name: 'שוק איפנמה', url: 'https://www.feiradeipanema.com' }
+          ]
+        },
+        {
+          name: 'ביקור אחרון בחוף',
+          description: 'רגיעה לפני הטיסה',
+          duration: '2-3 שעות',
+          price: 'חינם',
+          urls: []
+        }
+      ]
     }
   ],
 

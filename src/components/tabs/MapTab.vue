@@ -148,14 +148,14 @@ export default {
 
 <style scoped>
 .map-tab {
-  padding: 3rem;
-  animation: fadeIn 0.5s ease-in-out;
+  padding: 2rem;
+  animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;

@@ -27,6 +27,7 @@ import LoadingSpinner from './components/LoadingSpinner.vue'
 import TabContent from './components/TabContent.vue'
 import AppFooter from './components/AppFooter.vue'
 import { travelData } from './data/travelData.js'
+import { useTheme } from './composables/useTheme.js'
 
 export default {
   name: 'App',
@@ -36,6 +37,14 @@ export default {
     LoadingSpinner,
     TabContent,
     AppFooter
+  },
+  setup() {
+    // Initialize theme system
+    const { isDark } = useTheme()
+    
+    return {
+      isDark
+    }
   },
   data() {
     return {
@@ -51,7 +60,7 @@ export default {
       setTimeout(() => {
         this.activeTab = tabId
         this.loading = false
-      }, 300)
+      }, 200)
     },
     handleLocationSelected(locationInfo) {
       this.selectedLocationInfo = locationInfo
@@ -74,10 +83,12 @@ export default {
 <style>
 .app {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .content {
   padding: 0;
+  position: relative;
 }
 </style> 

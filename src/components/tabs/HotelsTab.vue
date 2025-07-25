@@ -60,14 +60,14 @@ export default {
 
 <style scoped>
 .hotels-tab {
-  padding: 3rem;
-  animation: fadeIn 0.5s ease-in-out;
+  padding: 2rem;
+  animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -76,22 +76,41 @@ export default {
 }
 
 .city-hotels {
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
 }
 
 .hotel-card {
-  background: white;
+  background: var(--bg-primary);
   padding: 2rem;
   margin: 1.5rem 0;
-  border-radius: 12px;
-  border-right: 5px solid #f39c12;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-  transition: all 0.3s ease;
+  border-radius: 20px;
+  border-left: 4px solid var(--warning-color);
+  box-shadow: var(--shadow-lg);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.hotel-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gradient-glass);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .hotel-card:hover {
-  transform: translateX(-5px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  transform: translateX(-8px) translateY(-4px);
+  box-shadow: var(--shadow-2xl);
+  border-left-color: var(--secondary-color);
+}
+
+.hotel-card:hover::before {
+  opacity: 1;
 }
 
 .hotel-header {
@@ -99,51 +118,67 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
 }
 
 .hotel-header h4 {
-  color: #2c3e50;
-  font-size: 1.4rem;
+  color: var(--text-primary);
+  font-size: 1.375rem;
+  font-weight: 600;
   margin: 0;
 }
 
 .rating {
-  background: linear-gradient(135deg, #f39c12, #e67e22);
-  color: white;
-  padding: 0.3rem 0.8rem;
-  border-radius: 20px;
-  font-weight: bold;
-  font-size: 0.9rem;
+  background: linear-gradient(135deg, var(--warning-color), var(--secondary-color));
+  color: var(--text-inverse);
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  box-shadow: var(--shadow-md);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .description {
-  color: #555;
-  line-height: 1.6;
+  color: var(--text-secondary);
+  line-height: 1.7;
   margin-bottom: 1.5rem;
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
 }
 
 .hotel-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
 
 .url-link {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, #3498db, #2980b9);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: var(--text-inverse);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
   text-decoration: none;
-  font-weight: 500;
-  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-md);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .url-link:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  background: linear-gradient(135deg, var(--primary-hover), var(--accent-color));
 }
 
 @media (max-width: 768px) {
@@ -151,16 +186,36 @@ export default {
     padding: 1.5rem;
   }
   
+  .hotel-card {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+  
   .hotel-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
+    gap: 0.75rem;
   }
   
   .hotel-footer {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hotels-tab {
+    padding: 1rem;
+  }
+  
+  .hotel-card {
+    padding: 1.25rem;
+    border-radius: 12px;
+  }
+  
+  .hotel-header h4 {
+    font-size: 1.25rem;
   }
 }
 </style> 

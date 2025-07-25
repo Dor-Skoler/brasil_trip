@@ -106,14 +106,14 @@ export default {
 
 <style scoped>
 .budget-tab {
-  padding: 3rem;
-  animation: fadeIn 0.5s ease-in-out;
+  padding: 2rem;
+  animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -143,6 +143,12 @@ export default {
   .budget-table th,
   .budget-table td {
     padding: 0.5rem 0.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .budget-tab {
+    padding: 1rem;
   }
 }
 </style> 

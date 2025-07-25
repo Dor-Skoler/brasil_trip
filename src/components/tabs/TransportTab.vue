@@ -81,14 +81,14 @@ export default {
 
 <style scoped>
 .transport-tab {
-  padding: 3rem;
-  animation: fadeIn 0.5s ease-in-out;
+  padding: 2rem;
+  animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -97,33 +97,91 @@ export default {
 }
 
 .transport-card {
-  background: white;
+  background: var(--bg-primary);
   padding: 2rem;
   margin: 1.5rem 0;
-  border-radius: 12px;
-  border-right: 5px solid #27ae60;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-  transition: all 0.3s ease;
+  border-radius: 20px;
+  border-left: 4px solid var(--success-color);
+  box-shadow: var(--shadow-lg);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.transport-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gradient-glass);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .transport-card:hover {
-  transform: translateX(-5px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  transform: translateX(-8px) translateY(-4px);
+  box-shadow: var(--shadow-2xl);
+  border-left-color: var(--accent-color);
+}
+
+.transport-card:hover::before {
+  opacity: 1;
 }
 
 .transport-card h4 {
-  color: #27ae60;
-  font-size: 1.4rem;
+  color: var(--text-primary);
+  font-size: 1.375rem;
+  font-weight: 600;
   margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.transport-card p {
+  color: var(--text-secondary);
+  margin: 0.75rem 0;
+  font-weight: 500;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
+.transport-card strong {
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 .links {
   margin-top: 1rem;
+  position: relative;
+  z-index: 1;
 }
 
 @media (max-width: 768px) {
   .transport-tab {
     padding: 1.5rem;
+  }
+  
+  .transport-card {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .transport-tab {
+    padding: 1rem;
+  }
+  
+  .transport-card {
+    padding: 1.25rem;
+    border-radius: 12px;
+  }
+  
+  .transport-card h4 {
+    font-size: 1.25rem;
   }
 }
 </style> 
