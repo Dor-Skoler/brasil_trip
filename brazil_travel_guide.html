@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מדריך טיול ברזיל - אוקטובר 2025</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="rgba(255,255,255,.1)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><circle cx="10" cy="10" r="10" fill="url(%23a)"><animate attributeName="cx" values="10;90;10" dur="10s" repeatCount="indefinite"/></circle><circle cx="50" cy="5" r="5" fill="url(%23a)"><animate attributeName="cx" values="50;20;80;50" dur="8s" repeatCount="indefinite"/></circle></svg>') repeat;
+            opacity: 0.3;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 1.4rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tabs-container {
+            background: #2c3e50;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .tabs {
+            display: flex;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .tab {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 1.2rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            position: relative;
+            font-size: 1rem;
+            font-weight: 500;
+            min-width: fit-content;
+        }
+        
+        .tab:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .tab.active {
+            background: #3498db;
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid white;
+        }
+        
+        .tab i {
+            margin-left: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .content {
+            padding: 0;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 3rem;
+            animation: fadeIn 0.5s ease-in-out;
+            min-height: 500px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section {
+            margin-bottom: 3rem;
+            padding: 2.5rem;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #3498db;
+            position: relative;
+        }
+        
+        .section h2::before {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: #e74c3c;
+            border-radius: 2px;
+        }
+        
+        .section h3 {
+            color: #34495e;
+            font-size: 1.6rem;
+            margin: 2rem 0 1.2rem 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section h3 i {
+            margin-left: 0.5rem;
+            color: #3498db;
+        }
+        
+        .destination {
+            background: white;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            border-right: 5px solid #e74c3c;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .destination:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .destination h4 {
+            color: #e74c3c;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .destination h4 i {
+            margin-left: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .info-card {
+            background: linear-gradient(135deg, #ecf0f1 0%, #bdc3c7 100%);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            border-right: 4px solid #27ae60;
+            transition: all 0.3s ease;
+        }
+        
+        .info-card:hover {
+            transform: translateX(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .price {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 0.5rem 0;
+            box-shadow: 0 3px 10px rgba(243, 156, 18, 0.3);
+        }
+        
+        .important {
+            background: linear-gradient(135deg, #ffe6e6, #ffcccc);
+            border: 2px solid #ff9999;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .important::before {
+            content: "⚠️ חשוב: ";
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 1.1rem;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-right: 3rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            right: 1.5rem;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #3498db, #2980b9);
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-item:hover {
+            transform: translateX(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            right: -1rem;
+            top: 2rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 0 0 4px #3498db;
+        }
+        
+        .timeline-item h4 {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .timeline-item h4 i {
+            margin-left: 0.5rem;
+            color: #3498db;
+        }
+        
+        .budget-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .budget-table th {
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .budget-table td {
+            padding: 1.2rem;
+            text-align: center;
+            border-bottom: 1px solid #ecf0f1;
+            transition: background-color 0.3s ease;
+        }
+        
+        .budget-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .budget-table tr:hover {
+            background: #e3f2fd;
+        }
+        
+        .budget-table tr:last-child {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            font-weight: bold;
+        }
+        
+        .weather-info {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            box-shadow: 0 8px 25px rgba(116, 185, 255, 0.3);
+        }
+        
+        .weather-info h4 {
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .checklist li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #ecf0f1;
+            transition: all 0.3s ease;
+        }
+        
+        .checklist li:hover {
+            background: #f8f9fa;
+            padding-right: 1rem;
+        }
+        
+        .checklist li::before {
+            content: "✅ ";
+            margin-left: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+        
+        .summary h2 {
+            color: white;
+            border-bottom: 3px solid white;
+            margin-bottom: 2rem;
+        }
+        
+        .summary p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Map Styles */
+        .map-container {
+            width: 100%;
+            height: 600px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin: 2rem 0;
+        }
+
+        .map-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .map-control-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .map-control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .map-control-btn.active {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .location-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-right: 4px solid #3498db;
+        }
+
+        .location-info h4 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .location-info .dates {
+            background: #3498db;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .url-link {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .url-link:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab {
+                flex: 1;
+                min-width: 120px;
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .tab-content {
+                padding: 1.5rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            .timeline {
+                padding-right: 2rem;
+            }
+            
+            .timeline::before {
+                right: 1rem;
+            }
+            
+            .timeline-item::before {
+                right: -0.5rem;
+            }
+
+            .map-container {
+                height: 400px;
+            }
+
+            .map-controls {
+                justify-content: center;
+            }
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <header class="header">
+                <h1>🇧🇷 מדריך טיול ברזיל</h1>
+                <p>אוקטובר 2025 • כמעט חודש של חוויות בלתי נשכחות</p>
+            </header>
+            
+            <div class="tabs-container">
+                <div class="tabs">
+                    <button 
+                        v-for="tab in tabs" 
+                        :key="tab.id"
+                        class="tab" 
+                        :class="{ active: activeTab === tab.id }"
+                        @click="setActiveTab(tab.id)"
+                    >
+                        <i :class="tab.icon"></i>
+                        {{ tab.name }}
+                    </button>
+                </div>
+            </div>
+            
+            <div class="content">
+                <div class="loading" v-show="loading">
+                    <div class="spinner"></div>
+                    <p>טוען תוכן...</p>
+                </div>
+                
+                <!-- Timeline Tab -->
+                <div v-show="activeTab === 'timeline'" class="tab-content active">
+                    <div class="section">
+                        <h2><i class="fas fa-calendar-alt"></i> לוח זמנים כללי</h2>
+                        <div class="timeline">
+                            <div v-for="item in timelineItems" :key="item.id" class="timeline-item">
+                                <h4><i class="fas fa-calendar-day"></i> {{ item.dates }}</h4>
+                                <strong>{{ item.location }}</strong><br>
+                                {{ item.description }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Map Tab -->
+                <div v-show="activeTab === 'map'" class="tab-content active">
+                    <div class="section">
+                        <h2><i class="fas fa-map-marked-alt"></i> מפת המסלול האינטראקטיבית</h2>
+                        
+                        <div class="map-controls">
+                            <button 
+                                v-for="location in locations" 
+                                :key="location.id"
+                                class="map-control-btn"
+                                :class="{ active: selectedLocation === location.id }"
+                                @click="focusOnLocation(location)"
+                            >
+                                {{ location.name }}
+                            </button>
+                            <button class="map-control-btn" @click="showFullRoute">
+                                <i class="fas fa-route"></i> מסלול מלא
+                            </button>
+                        </div>
+
+                        <div id="map" class="map-container"></div>
+
+                        <div v-if="selectedLocationInfo" class="location-info">
+                            <h4>{{ selectedLocationInfo.name }}</h4>
+                            <div class="dates">{{ selectedLocationInfo.dates }}</div>
+                            <p><strong>פעילויות עיקריות:</strong> {{ selectedLocationInfo.activities }}</p>
+                            <p><strong>לינה מומלצת:</strong> {{ selectedLocationInfo.accommodation }}</p>
+                            <div v-if="selectedLocationInfo.links">
+                                <p><strong>קישורים שימושיים:</strong></p>
+                                <ul>
+                                    <li v-for="link in selectedLocationInfo.links" :key="link.name">
+                                        <a :href="link.url" target="_blank" class="url-link">{{ link.name }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other tabs content remains the same but with v-show -->
+                <div v-show="activeTab === 'flights'" class="tab-content active">
+                    <div class="section">
+                        <h2><i class="fas fa-plane"></i> מטריצת טיסות</h2>
+                        
+                        <h3><i class="fas fa-globe"></i> טיסות בינלאומיות</h3>
+                        <div class="info-card">
+                            <strong>תל אביב ↔ ריו דה ז'ניירו (הלוך וחזור)</strong><br>
+                            <span class="price">£680-700 לאדם (כ-₪3,300)</span><br>
+                            משך: 17-20 שעות (עם עצירת ביניים)<br>
+                            אין כיום טיסות ישירות<br>
+                            <a href="https://www.skyscanner.com" target="_blank" class="url-link">חיפוש טיסות בסקיי סקנר</a>
+                        </div>
+                        
+                        <h3><i class="fas fa-plane-departure"></i> טיסות פנימיות</h3>
+                        <div class="info-card">
+                            <strong>13 אוקטובר: סאו פאולו (GRU) → סלבדור (SSA)</strong><br>
+                            <span class="price">~$90 (כ-₪330)</span><br>
+                            משך: 2:20 שעות | חברות: GOL, LATAM, Azul<br>
+                            <a href="https://www.voegol.com.br" target="_blank" class="url-link">GOL Airlines</a> | 
+                            <a href="https://www.latam.com" target="_blank" class="url-link">LATAM</a>
+                        </div>
+                        
+                        <div class="info-card">
+                            <strong>22 אוקטובר: איליאוס (IOS) → פורטלזה (FOR)</strong><br>
+                            <span class="price">~£114 (כ-$145)</span><br>
+                            משך: 4-5 שעות (עם קונקשן דרך סלבדור)
+                        </div>
+                        
+                        <div class="info-card">
+                            <strong>29 אוקטובר: פורטלזה (FOR) → ריו (GIG)</strong><br>
+                            <span class="price">~$111</span><br>
+                            משך: 3:20 שעות (טיסה ישירה) | חברות: GOL, LATAM
+                        </div>
+                        
+                        <div class="important">
+                            מומלץ לרכוש כרטיסים פנימיים מראש. במקרה של ביטול, יש יום 30.10 הפנוי בריו לגיבוי.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hotels Tab -->
+                <div v-show="activeTab === 'hotels'" class="tab-content active">
+                    <div class="section">
+                        <h2><i class="fas fa-hotel"></i> מלונות 4★ מומלצים</h2>
+                        
+                        <div class="destination">
+                            <h4><i class="fas fa-map-marker-alt"></i> ריו דה ז'ניירו (3-8 אוקטובר)</h4>
+                            <div class="info-card">
+                                <strong>Windsor California Copacabana</strong> - דירוג 8.9★<br>
+                                מול הים בקופקבנה, בריכת גג, נוף פנורמי<br>
+                                <span class="price">~₪600 ללילה</span><br>
+                                <a href="https://www.booking.com/hotel/br/windsor-california.html" target="_blank" class="url-link">הזמנה ב-Booking.com</a>
+                            </div>
+                            <div class="info-card">
+                                <strong>Arena Copacabana Hotel</strong> - דירוג 8.5★<br>
+                                על טיילת קופקבנה, בריכת גג עם נוף לים<br>
+                                <span class="price">~₪500 ללילה</span><br>
+                                <a href="https://www.booking.com/hotel/br/arena-copacabana.html" target="_blank" class="url-link">הזמנה ב-Booking.com</a>
+                            </div>
+                            <div class="info-card">
+                                <strong>Sol Ipanema Hotel</strong> - דירוג 8.5★<br>
+                                מול חוף איפנמה, בריכת גג ונוף לים<br>
+                                <span class="price">~₪550 ללילה</span><br>
+                                <a href="https://www.booking.com/hotel/br/sol-ipanema.html" target="_blank" class="url-link">הזמנה ב-Booking.com</a>
+                            </div>
+                        </div>
+
+                        <div class="destination">
+                            <h4><i class="fas fa-map-marker-alt"></i> סאו פאולו/איטו (9-12 אוקטובר)</h4>
+                            <div class="info-card">
+                                <strong>Novotel Itu Terras São José Golf & Resort</strong> - דירוג 8.8★<br>
+                                מלון כפרי במתחם גולף, בריכות וספא<br>
+                                <span class="price">~₪800 ללילה</span><br>
+                                <a href="https://www.booking.com/hotel/br/novotel-itu-terras-sao-jose-golf-resort.html" target="_blank" class="url-link">הזמנה ב-Booking.com</a>
+                            </div>
+                            <div class="info-card">
+                                <strong>Gandini Hotel</strong> - דירוג 8.3★<br>
+                                1 ק"מ ממרכז איטו, בריכה וג'קוזי<br>
+                                <span class="price">~₪300 ללילה</span>
+                            </div>
+                        </div>
+
+                        <div class="destination">
+                            <h4><i class="fas fa-map-marker-alt"></i> מורו דה סאו פאולו (13-16 אוקטובר)</h4>
+                            <div class="info-card">
+                                <strong>Pousada Bahia Tambor</strong> - דירוג 9.2★<br>
+                                חוף השני, בריכה מול הים, מרכז חיי החוף<br>
+                                <span class="price">~₪450 ללילה</span>
+                            </div>
+                            <div class="info-card">
+                                <strong>Villa dos Corais</strong> - דירוג ~9★<br>
+                                חוף שלישי/רביעי, בונגלוס בגינה טרופית<br>
+                                <span class="price">₪400-600 ללילה</span>
+                            </div>
+                        </div>
+
+                        <div class="destination">
+                            <h4><i class="fas fa-map-marker-alt"></i> איטאקרה (17-21 אוקטובר)</h4>
+                            <div class="info-card">
+                                <strong>Aldeia do Mar Hotel</strong> - דירוג 9.1★<br>
+                                חוף קונשה, בקתות עץ בגינה טרופית<br>
+                                <span class="price">~₪450 ללילה</span>
+                            </div>
+                            <div class="info-card">
+                                <strong>Terra Boa Hotel Boutique</strong> - דירוג 8.6★<br>
+                                5 דקות מחוף קונשה, סגנון מודרני-טרופי<br>
+                                <span class="price">~₪360 ללילה</span>
+                            </div>
+                        </div>
+
+                        <div class="destination">
+                            <h4><i class="fas fa-map-marker-alt"></i> ג'ריקואקוארה (22-28 אוקטובר)</h4>
+                            <div class="info-card">
+                                <strong>Hotel Villa Terra Viva</strong> - דירוג 9.4★<br>
+                                צעדים מהחוף, בריכה ונוף לים<br>
+                                <span class="price">~₪400 ללילה</span>
+                            </div>
+                            <div class="info-card">
+                                <strong>Villa Beija Flor</strong> - דירוג 9.3★<br>
+                                100 מ' מכיכר הכפר, גן טרופי<br>
+                                <span class="price">~₪380 ללילה</span>
+                            </div>
+                            <div class="info-card">
+                                <strong>Pousada Chez Toi</strong> - דירוג 9.1★<br>
+                                200 מ' מהחוף, בריכת גג עם נוף שקיעה<br>
+                                <span class="price">~₪450 ללילה</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transport Tab -->
+                <div v-show="activeTab === 'transport'" class="tab-content active">
+                    <div class="section">
+                        <h2><i class="fas fa-bus"></i> העברות יבשתיות וימיות</h2>
+                        
+                        <h3><i class="fas fa-route"></i> 9 אוקטובר: ריו → סאו פאולו</h3>
+                        <div class="info-card">
+                            <strong>אוטובוס Aguia Branca "Leito-Cama"</strong><br>
+                            יציאה: 07:00 מנובו-ריו | הגעה: 12:30 תחנת Tietê<br>
+                            משך: 5.5 שעות<br>
+                            <span class="price">R$120 (יש גם Semi-Leito R$80)</span><br>
+                            <a href="https://www.aguiabranca.com.br" target="_blank" class="url-link">אתר Aguia Branca</a>
+                        </div>
+
+                        <h3><i class="fas fa-ship"></i> 13 אוקטובר: סלבדור → מורו דה סאו פאולו</h3>
+                        <div class="info-card">
+                            <strong>מעבורת קטמרן ישירה</strong><br>
+                            יציאה: Terminal Náutico בעיר העתיקה<br>
+                            הפלגות: 09:00 ו-14:30<br>
+                            משך: 2.5 שעות (64 ק"מ)<br>
+                            <span class="price">R$130 לאדם כולל מס נמל</span><br>
+                            <a href="https://www.catamaranmorro.com.br" target="_blank" class="url-link">הזמנת מעבורת</a>
+                        </div>
+                        <div class="important">
+                            70% מהנוסעים סובלים מסחרחורת. שבו בחלק החיצוני לאוויר צח.
+                        </div>
+
+                        <h3><i class="fas fa-car"></i> 17 אוקטובר: מורו → איטאקרה</h3>
+                        <div class="info-card">
+                            <strong>אופציה מומלצת: העברה פרטית</strong><br>
+                            ואן ישיר כולל מעבורת בכ-4 שעות<br>
+                            <span class="price">R$200 לאדם</span>
+                        </div>
+
+                        <h3><i class="fas fa-taxi"></i> 22 אוקטובר: איטאקרה → איליאוס</h3>
+                        <div class="info-card">
+                            <strong>מונית/הסעה פרטית (מומלץ)</strong><br>
+                            75 ק"מ, 1.5 שעות בכביש BA-001<br>
+                            <span class="price">R$300 לרכב</span>
+                        </div>
+
+                        <h3><i class="fas fa-truck"></i> 22 אוקטובר: פורטלזה → ג'ריקואקוארה</h3>
+                        <div class="info-card">
+                            <strong>שאטל 4x4 משותף</strong><br>
+                            יציאה: 08:00 או 14:00 משדה התעופה<br>
+                            משך: 4.5 שעות (כולל נסיעה על החוף)<br>
+                            <span class="price">R$350 לאדם</span><br>
+                            <a href="https://www.jericoacoaratransfer.com" target="_blank" class="url-link">הזמנת שאטל</a>
+                        </div>
+                        <div class="info-card">
+                            <strong>העברה פרטית 4x4</strong><br>
+                            זמין 24/7, משך 4 שעות<br>
+                            <span class="price">$250-300 לכל הרכב (~₪950)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activities Tab -->
+                <div v-show="activeTab === 'activities'" class="tab-content active">
+                    <div class="section">
+                        <h2><i class="fas fa-hiking"></i> קטלוג פעילויות מומלצות</h2>
+                        
+                        <div class="destination">
+                            <h4><i class="fas fa-city"></i> ריו דה ז'ניירו</h4>
+                            <div class="info-card">
+                                <strong>🗿 פסל ישו הגואל (Corcovado)</strong><br>
+                                רכבת הר דרך יער טיז'וקה (20 דקות כל כיוון)<br>
+                                <span class="price">R$125 למבוגר כולל רכבת</span><br>
+                                רמת קושי: קלה | טיפ: הגיעו מוקדם (08:00) להימנע מעננים<br>
+                                <a href="https://www.tremdocorcovado.rio" target="_blank" class="url-link">הזמנת כרטיסים מראש</a>
+                            </div>
+                            <div class="info-card">
+                                <strong>🚠 הר הסוכר (Pão de Açúcar)</strong><br>
+                                רכבל כפול לפסגות עם תצפית מדהימה<br>
+                                <span class="price">R$180 לאדם הלוך-חזור</span><br>
+                                רמת קושי: קלה | טיפ: עלו כשעה לפני שקיעה<br>
+                                <a href="https://www.bondinho.com.br" target="_blank" class="url-link">אתר הרכבל הרשמי</a>
+                            </div>
+                            <div class="info-card">
+                                <strong>🌳 טיול ביער טיז'וקה</strong><br>
+                                טרק לפסגת פיקו דה טיז'וקה (~5 ק"מ הלוך-חזור)<br>
+                                <span class="price">R$250 למדריך לקבוצה</span><br>
+                                רמת קושי: בינונית (1.5 שעות עלייה)
+                            </div>
+                            <div class="info-card">
+                                <strong>🎨 סיור בסנטה תרזה</strong><br>
+                                חשמלית היסטורית + רחובות מרוצפים וגרפיטי<br>
+                                <span class="price">R$20 חשמלית + R$100 סיור מודרך</span><br>
+                                רמת קושי: קלה
+                            </div>
+                        </div>
+
+                        <div class="destination">
+                            <h4><i class="fas fa-island-tropical"></i> מורו דה סאו פאולו</h4>
+                            <div class="info-card">
+                                <strong>🏖️ יום חופים (4 חופים)</strong><br>
+                                חוף 2 → חוף 3 → חוף 4 (6 ק"מ הליכה כוללת)<br>
+                                <span class="price">חופשי</span><br>
+                                רמת קושי: קלה
+                            </div>
+                            <div class="info-card">
+                                <strong>🪂 אומגת Tirolesa</strong><br>
+                                גלישה מגובה 70 מ' מהמגדלור אל הים<br>
+                                <span class="price">R$50 לאדם</span><br>
+                                רמת קושי: בינונית (טיפוס חצי שעה)
+                            </div>
+                            <div class="info-card">
+                                <strong>⛵ שייט שקיעה</strong><br>
+                                קטמרן סביב האי, יציאה 16:30<br>
+                                <span class="price">R$80-100 כולל משקה</span><br>
+                                רמת קושי: קלה
+                            </div>
+                            <div class="info-card">
+                                <strong>🤿 שנורקל במערות Guarapuá</strong><br>
+                                סיור לשונית עשירה באלמוגים ודגים<br>
+                                <span class="price">R$120 שנורקל / R$250 צלילה</span><br>
+                                רמת קושי: בינונית
+                            </div>
+                        </div>
+
+                        <div class="destination">
+                            <h4><i class="fas fa-tree"></i> איטאקרה</h4>
+                            <div class="info-card">
+                                <strong>🥾 טרק ארבעת החופים</strong><br>
+                                יער אטלנטי → חופים מבודדים (8 ק"מ)<br>
+                                <span class="price">R$10 חניה</span><br>
+                                רמת קושי: קלה-בינונית (2 שעות נטו)
+                            </div>
+                            <div class="info-card">
+                                <strong>💦 מפלי Tijuípe</strong><br>
+                                בריכת מפל + חבל נדנדה (5 דקות הליכה)<br>
+                                <span class="price">R$30 כניסה</span><br>
+                                רמת קושי: קלה מאוד
+                            </div>
+                            <div class="info-card">
+                                <strong>🏄‍♂️ שיעור גלישה בחוף Tiririca</strong><br>
+                                שעה וחצי עם מדריך, כולל ציוד<br>
+                                <span class="price">R$100 לאדם</span><br>
+                                רמת קושי: בינונית
+                            </div>
+                            <div class="info-card">
+                                <strong>🍫 סיור שוקולד במטע קקאו</strong><br>
+                                הסבר על גידול קקאו + טעימות<br>
+                                <span class="price">R$50 לאדם</span><br>
+                                רמת קושי: קלה
+                            </div>
+                        </div>
+
+                        <div class="destination">
+                            <h4><i class="fas fa-sun"></i> ג'ריקואקוארה</h4>
+                            <div class="info-card">
+                                <strong>🏜️ טיול באגי ללגונות המזרח</strong><br>
+                                Lagoa do Paraíso + Lagoa Azul + Pedra Furada<br>
+                                <span class="price">R$100-120 לאדם (7 שעות)</span><br>
+                                רמת קושי: קלה-בינונית<br>
+                                <a href="https://www.jericoacoaratours.com" target="_blank" class="url-link">הזמנת סיור</a>
+                            </div>
+                            <div class="info-card">
+                                <strong>🌅 טיול באגי לדיונות המערב</strong><br>
+                                טאטאג'ובה + דיונת השקיעה<br>
+                                <span class="price">R$100-130 לאדם</span><br>
+                                רמת קושי: קלה
+                            </div>
+                            <div class="info-card">
+                                <strong>🏄‍♂️ גלישת רוח וקייטסרפינג</strong><br>
+                                שיעור התנסות 2 שעות<br>
+                                <span class="price">R$200 לאדם</span><br>
+                                רמת קושי: בינונית-גבוהה<br>
+                                <a href="https://www.jericoacoarakite.com" target="_blank" class="url-link">בית ספר לקייטסרפינג</a>
+                            </div>
+                            <div class="info-card">
+                                <strong>⭐ צפייה בכוכבים על הדיונה</strong><br>
+                                טיפוס לילי לדיונת השקיעה<br>
+                                <span class="price">חופשי</span><br>
+                                רמת קושי: קלה
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weather Tab -->
+                <div v-show="activeTab === 'weather'" class="tab-content active">
+                    <div class="section">
+                        <h2><i class="fas fa-cloud-sun"></i> מזג האוויר וחיסונים</h2>
+                        
+                        <div class="weather-info">
+                            <h4><i class="fas fa-thermometer-half"></i> ריו דה ז'ניירו - אביבי נעים</h4>
+                            🌡️ 20-26°C | 🌧️ 88 מ"מ גשם ב-13 ימים | שקיעה: 17:50-18:15
+                        </div>
+
+                        <div class="weather-info">
+                            <h4><i class="fas fa-thermometer-half"></i> סאו פאולו/איטו - מתון וקריר יותר</h4>
+                            🌡️ 17-27°C | ⚡ סופות רעמים אקראיות אחה"צ
+                        </div>
+
+                        <div class="weather-info">
+                            <h4><i class="fas fa-thermometer-half"></i> באיה (סלבדור, מורו, איטאקרה) - טרופי חמים</h4>
+                            🌡️ 22-30°C | 🌧️ 70 מ"מ גשם בחודש | שקיעה: 17:40-17:50
+                        </div>
+
+                        <div class="weather-info">
+                            <h4><i class="fas fa-thermometer-half"></i> ג'ריקואקוארה - חם ויבש מאוד</h4>
+                            🌡️ 26-33°C | 🌵 פחות מ-10 מ"מ גשם | שקיעה: 17:30-17:40
+                        </div>
+
+                        <h3><i class="fas fa-syringe"></i> חיסונים נדרשים</h3>
+                        <ul class="checklist">
+                            <li><strong>קדחת צהובה</strong> - מומלץ מאוד לצפון-מזרח ברזיל (10 ימים לפני הנסיעה)</li>
+                            <li><strong>הפטיטיס A</strong> - לוודא שיש חיסון בתוקף</li>
+                            <li><strong>טיפוס בטן</strong> - לפי צורך</li>
+                            <li><strong>דוחה יתושים</strong> - הגנה נגד דנגי וצ'יקונגוניה</li>
+                        </ul>
+                        
+                        <div class="important">
+                            באזורים המתוארים אין מלריה פעילה - אין צורך בכדורי מלריה.
+                            <br><br>
+                            <strong>קישורים שימושיים:</strong><br>
+                            <a href="https://www.gov.il/he/departments/ministry_of_health" target="_blank" class="url-link">משרד הבריאות - מידע על חיסונים</a><br>
+                            <a href="https://www.cdc.gov/travel/destinations/traveler/none/brazil" target="_blank" class="url-link">CDC - המלצות נסיעה לברזיל</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Budget Tab -->
+                <div v-show="activeTab === 'budget'" class="tab-content active">
+                    <div class="section">
+                        <h2><i class="fas fa-calculator"></i> תקציב כולל משוער</h2>
+                        
+                        <table class="budget-table">
+                            <thead>
+                                <tr>
+                                    <th>פריט</th>
+                                    <th>עלות לאדם (₪)</th>
+                                    <th>עלות לזוג (₪)</th>
+                                    <th>הערות</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>טיסות בינלאומיות</td>
+                                    <td>3,300</td>
+                                    <td>6,600</td>
+                                    <td>הלוך וחזור עם עצירת ביניים</td>
+                                </tr>
+                                <tr>
+                                    <td>טיסות פנימיות</td>
+                                    <td>1,200</td>
+                                    <td>2,400</td>
+                                    <td>3 טיסות פנימיות</td>
+                                </tr>
+                                <tr>
+                                    <td>לינה (25 לילות)</td>
+                                    <td>6,250</td>
+                                    <td>12,500</td>
+                                    <td>ממוצע ₪500 ללילה לזוג</td>
+                                </tr>
+                                <tr>
+                                    <td>תחבורה יבשתית/ימית</td>
+                                    <td>1,200</td>
+                                    <td>2,400</td>
+                                    <td>כל ההעברות בין יעדים</td>
+                                </tr>
+                                <tr>
+                                    <td>אוכל ובילויים</td>
+                                    <td>3,640</td>
+                                    <td>7,280</td>
+                                    <td>$40 לאדם ליום (26 ימים)</td>
+                                </tr>
+                                <tr>
+                                    <td>פעילויות וסיורים</td>
+                                    <td>2,600</td>
+                                    <td>5,200</td>
+                                    <td>₪100 לאדם ליום בממוצע</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>סה"כ</strong></td>
+                                    <td><strong>18,190</strong></td>
+                                    <td><strong>36,380</strong></td>
+                                    <td><strong>כולל מרווח ביטחון</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="important">
+                            ניתן לצמצם לכ-₪15,000-16,000 לאדם עם לינות זולות יותר ואוכל מקומי.
+                            <br><br>
+                            <strong>כלים לניהול תקציב:</strong><br>
+                            <a href="https://www.xe.com/currencyconverter/" target="_blank" class="url-link">המרת מטבעות XE</a><br>
+                            <a href="https://wise.com" target="_blank" class="url-link">Wise - העברות כספים זולות</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backup Tab -->
+                <div v-show="activeTab === 'backup'" class="tab-content active">
+                    <div class="section">
+                        <h2><i class="fas fa-shield-alt"></i> תוכנית גיבוי ותקלות</h2>
+                        
+                        <h3><i class="fas fa-water"></i> ים סוער במורו או איטאקרה</h3>
+                        <div class="important">
+                            מסלול חלופי: מעבורת קצרה לאי איטפריקה → ואן ליבשה לוולנסה → סירה מהירה למורו (4-5 שעות במקום 2.5)
+                        </div>
+
+                        <h3><i class="fas fa-cloud-rain"></i> גשם כבד באיטאקרה</h3>
+                        <ul class="checklist">
+                            <li>ביקור בעיירה איליאוס (מוזיאון שוקולד)</li>
+                            <li>סיור במפעלי קקאו מקורים</li>
+                            <li>ספא ובריכה מקורה במלון</li>
+                        </ul>
+
+                        <h3><i class="fas fa-plane-slash"></i> ביטול טיסה פנימית</h3>
+                        <div class="important">
+                            יום 30.10 פנוי בריו לגיבוי. אם טיסת IOS→FOR מתבטלת: מונית לסלבדור (6 שעות) וטיסת ערב לפורטלזה.
+                        </div>
+
+                        <h3><i class="fas fa-hospital"></i> מקרה חירום רפואי</h3>
+                        <ul class="checklist">
+                            <li>ערים גדולות: בתי חולים טובים (פרטיים בריו וסלבדור)</li>
+                            <li>ג'ריקואקוארה: מרפאה קטנה, פינוי לפורטלזה במקרה חירום</li>
+                            <li>ביטוח נסיעות מקיף הכרחי (כולל ספורט אתגרי מתון)</li>
+                        </ul>
+
+                        <h3><i class="fas fa-star-and-crescent"></i> חגים ואירועים מיוחדים</h3>
+                        <div class="important">
+                            ערב סוכות (6.10.2025) - בית חב"ד בקופקבנה. ליצור קשר שבוע מראש לשריין מקום בסוכה.
+                            <br><br>
+                            <strong>קישורים שימושיים:</strong><br>
+                            <a href="https://www.chabad.org/centers/default_cdo/country/Brazil" target="_blank" class="url-link">בתי חב"ד בברזיל</a><br>
+                            <a href="https://www.gov.il/he/departments/consular_services" target="_blank" class="url-link">שירותים קונסולריים - משרד החוץ</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary">
+                    <h2><i class="fas fa-star"></i> סיכום</h2>
+                    <p>
+                        כמעט חודש מלא של חוויות בלתי נשכחות בברזיל!<br>
+                        מנופי ריו המדהימים, דרך פסטיבל טומורולנד העולמי,<br>
+                        חופים קסומים בבאיה, יערות גשם באיטאקרה,<br>
+                        ועד למדבר החולי של ג'ריקואקוארה עם לגונות טורקיז.<br><br>
+                        <strong>¡Boa viagem! שיהיה טיול חלומי! 🇧🇷</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    activeTab: 'timeline',
+                    loading: false,
+                    selectedLocation: null,
+                    selectedLocationInfo: null,
+                    map: null,
+                    markers: [],
+                    routeLine: null,
+                    tabs: [
+                        { id: 'timeline', name: 'לוח זמנים', icon: 'fas fa-calendar-alt' },
+                        { id: 'map', name: 'מפה', icon: 'fas fa-map-marked-alt' },
+                        { id: 'flights', name: 'טיסות', icon: 'fas fa-plane' },
+                        { id: 'hotels', name: 'מלונות', icon: 'fas fa-hotel' },
+                        { id: 'transport', name: 'העברות', icon: 'fas fa-bus' },
+                        { id: 'activities', name: 'פעילויות', icon: 'fas fa-hiking' },
+                        { id: 'weather', name: 'מזג אוויר', icon: 'fas fa-cloud-sun' },
+                        { id: 'budget', name: 'תקציב', icon: 'fas fa-calculator' },
+                        { id: 'backup', name: 'תוכנית גיבוי', icon: 'fas fa-shield-alt' }
+                    ],
+                    timelineItems: [
+                        {
+                            id: 1,
+                            dates: '3-8 אוקטובר',
+                            location: 'ריו דה ז\'ניירו',
+                            description: 'הגעה, הסתגלות, אתרים עיקריים, חוף קופקבנה ואיפנמה'
+                        },
+                        {
+                            id: 2,
+                            dates: '9-12 אוקטובר',
+                            location: 'סאו פאולו/איטו',
+                            description: 'פסטיבל טומורולנד ברזיל'
+                        },
+                        {
+                            id: 3,
+                            dates: '13-16 אוקטובר',
+                            location: 'מורו דה סאו פאולו',
+                            description: 'חופים טרופיים, אומגה, שיט שקיעה'
+                        },
+                        {
+                            id: 4,
+                            dates: '17-21 אוקטובר',
+                            location: 'איטאקרה',
+                            description: 'יער אטלנטי, מפלים, גלישה, שוקולד'
+                        },
+                        {
+                            id: 5,
+                            dates: '22-28 אוקטובר',
+                            location: 'ג\'ריקואקוארה',
+                            description: 'דיונות, לגונות, גלישת רוח, שקיעות מדהימות'
+                        },
+                        {
+                            id: 6,
+                            dates: '29-31 אוקטובר',
+                            location: 'חזרה דרך ריו',
+                            description: 'יום גיבוי וטיסה לישראל'
+                        }
+                    ],
+                    locations: [
+                        {
+                            id: 'rio',
+                            name: 'ריו דה ז\'ניירו',
+                            lat: -22.9068,
+                            lng: -43.1729,
+                            dates: '3-8 אוקטובר',
+                            activities: 'פסל ישו, הר הסוכר, חופי קופקבנה ואיפנמה, סנטה תרזה',
+                            accommodation: 'Windsor California Copacabana, Arena Copacabana Hotel',
+                            links: [
+                                { name: 'מידע תיירותי רשמי', url: 'https://www.visit.rio' },
+                                { name: 'כרטיסים לאטרקציות', url: 'https://www.tremdocorcovado.rio' }
+                            ]
+                        },
+                        {
+                            id: 'sao-paulo',
+                            name: 'סאו פאולו/איטו',
+                            lat: -23.4253,
+                            lng: -47.3986,
+                            dates: '9-12 אוקטובר',
+                            activities: 'פסטיבל טומורולנד, מתחם גולף, עיר איטו ההיסטורית',
+                            accommodation: 'Novotel Itu Terras São José Golf & Resort, Gandini Hotel',
+                            links: [
+                                { name: 'טומורולנד ברזיל', url: 'https://www.tomorrowland.com/brasil' },
+                                { name: 'אתר עיר איטו', url: 'https://www.itu.sp.gov.br' }
+                            ]
+                        },
+                        {
+                            id: 'morro',
+                            name: 'מורו דה סאו פאולו',
+                            lat: -13.4294,
+                            lng: -38.9176,
+                            dates: '13-16 אוקטובר',
+                            activities: 'ארבעה חופים, אומגת טירולזה, שייט שקיעה, שנורקל',
+                            accommodation: 'Pousada Bahia Tambor, Villa dos Corais',
+                            links: [
+                                { name: 'מידע על האי', url: 'https://www.morrodesaopaulo.com.br' },
+                                { name: 'מעבורות למורו', url: 'https://www.catamaranmorro.com.br' }
+                            ]
+                        },
+                        {
+                            id: 'itacare',
+                            name: 'איטאקרה',
+                            lat: -14.2755,
+                            lng: -38.9967,
+                            dates: '17-21 אוקטובר',
+                            activities: 'טרק ארבעת החופים, מפלי טיג\'ויפי, גלישה, סיור שוקולד',
+                            accommodation: 'Aldeia do Mar Hotel, Terra Boa Hotel Boutique',
+                            links: [
+                                { name: 'מידע תיירותי איטאקרה', url: 'https://www.itacare.com.br' },
+                                { name: 'פעילויות ואקו-טיולים', url: 'https://www.itacareecoturismo.com.br' }
+                            ]
+                        },
+                        {
+                            id: 'jericoacoara',
+                            name: 'ג\'ריקואקוארה',
+                            lat: -2.7928,
+                            lng: -40.5186,
+                            dates: '22-28 אוקטובר',
+                            activities: 'דיונות ולגונות, גלישת רוח וקייט, שקיעות מדהימות, צפייה בכוכבים',
+                            accommodation: 'Hotel Villa Terra Viva, Villa Beija Flor, Pousada Chez Toi',
+                            links: [
+                                { name: 'מידע רשמי על ג\'רי', url: 'https://www.jericoacoara.com' },
+                                { name: 'סיורי באגי ופעילויות', url: 'https://www.jericoacoaratours.com' },
+                                { name: 'בית ספר לקייטסרפינג', url: 'https://www.jericoacoarakite.com' }
+                            ]
+                        }
+                    ]
+                }
+            },
+            methods: {
+                setActiveTab(tabId) {
+                    this.loading = true;
+                    setTimeout(() => {
+                        this.activeTab = tabId;
+                        this.loading = false;
+                        if (tabId === 'map') {
+                            this.$nextTick(() => {
+                                this.initMap();
+                            });
+                        }
+                    }, 300);
+                },
+                initMap() {
+                    if (!this.map) {
+                        // Initialize map centered on Brazil
+                        this.map = L.map('map').setView([-14.2350, -51.9253], 5);
+                        
+                        // Add tile layer
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            attribution: '© OpenStreetMap contributors'
+                        }).addTo(this.map);
+                        
+                        // Add markers for all locations
+                        this.addMarkersToMap();
+                        this.showFullRoute();
+                    }
+                },
+                addMarkersToMap() {
+                    this.locations.forEach(location => {
+                        const marker = L.marker([location.lat, location.lng])
+                            .addTo(this.map)
+                            .bindPopup(`
+                                <div style="text-align: right; direction: rtl;">
+                                    <h4>${location.name}</h4>
+                                    <p><strong>${location.dates}</strong></p>
+                                    <p>${location.activities}</p>
+                                </div>
+                            `);
+                        
+                        marker.on('click', () => {
+                            this.selectedLocation = location.id;
+                            this.selectedLocationInfo = location;
+                        });
+                        
+                        this.markers.push({ id: location.id, marker });
+                    });
+                },
+                focusOnLocation(location) {
+                    if (this.map) {
+                        this.selectedLocation = location.id;
+                        this.selectedLocationInfo = location;
+                        this.map.setView([location.lat, location.lng], 10);
+                        
+                        // Find and open the popup for this location
+                        const markerData = this.markers.find(m => m.id === location.id);
+                        if (markerData) {
+                            markerData.marker.openPopup();
+                        }
+                    }
+                },
+                showFullRoute() {
+                    if (this.map && this.routeLine) {
+                        this.map.removeLayer(this.routeLine);
+                    }
+                    
+                    if (this.map) {
+                        const routeCoords = this.locations.map(loc => [loc.lat, loc.lng]);
+                        this.routeLine = L.polyline(routeCoords, {
+                            color: '#e74c3c',
+                            weight: 3,
+                            opacity: 0.8
+                        }).addTo(this.map);
+                        
+                        // Fit map to show all locations
+                        const group = new L.featureGroup(this.markers.map(m => m.marker));
+                        this.map.fitBounds(group.getBounds().pad(0.1));
+                        
+                        this.selectedLocation = null;
+                        this.selectedLocationInfo = null;
+                    }
+                }
+            },
+            mounted() {
+                // Add keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    const currentIndex = this.tabs.findIndex(tab => tab.id === this.activeTab);
+                    if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                        this.setActiveTab(this.tabs[currentIndex - 1].id);
+                    } else if (e.key === 'ArrowRight' && currentIndex < this.tabs.length - 1) {
+                        this.setActiveTab(this.tabs[currentIndex + 1].id);
+                    }
+                });
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
